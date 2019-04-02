@@ -1,25 +1,15 @@
 # Data Marketplace on top of Hyperledger Fabric
-Notice: This document is heavily inspired from [an IBM tutorial](https://github.com/IBM/blockchain-network-on-kubernetes#4-deploy-hyperledger-fabric-network-into-kubernetes-cluster)
+Notice: This document is heavily inspired from [an IBM tutorial](https://github.com/IBM/blockchain-network-on-kubernetes#4-deploy-hyperledger-fabric-network-into-kubernetes-cluster).
+
 You need to have the [data marketplace chaincode](https://github.com/lgsvl/data-marketplace-chaincode) correctly setup in your Go Path.
 
-# Deploy the Blockchain network using Kubernetes APIs on IBM Cloud
+# Deploy the Blockchain network using Kubernetes APIs
 
-Blockchain is a shared, immutable ledger for recording the history of transactions. For developing any blockchain use-case, the very first thing is to have a development environment for Hyperledger Fabric to create and deploy the application. Hyperledger Fabric network can be setup in multiple ways. 
-* [Hyperledger Fabric network On-Premise](http://hyperledger-fabric.readthedocs.io/en/release-1.0/build_network.html)
-* Using [Blockchain as a service](https://console.bluemix.net/catalog/services/blockchain) hosted on [IBM Cloud](https://console.bluemix.net/). IBM Cloud provides you Blockchain as a service with a Starter Membership Plan and Enterprise Membership Plan.
-* Hyperledger Fabric network using [Kubernetes APIs]((https://console.bluemix.net/containers-kubernetes/catalog/cluster)) on [IBM Cloud Container Service](https://console.bluemix.net/containers-kubernetes/catalog/cluster)
-
-In this repository we suppose that you have a running kubernetes cluster and a well configured Kubectl.
+Blockchain is a shared, immutable ledger for recording the history of transactions. For developing any blockchain use-case, the very first thing is to have a development environment for Hyperledger Fabric to create and deploy the application. Hyperledger Fabric network can be setup in multiple ways. In this repository we suppose that you have a running kubernetes cluster and a well configured Kubectl.
 This code pattern demonstrates the steps involved in setting up a data marketplace chaincode on Hyperledger on **Hyperledger Fabric using Kubernetes APIs**. 
 
 In our case, we used EKS as a Kubernetes instance with EFS for the persistent volumes.
 
-
-## Included components
-
-* [Hyperledger Fabric](https://hyperledger-fabric.readthedocs.io/): Hyperledger Fabric is a platform for distributed ledger solutions underpinned by a modular architecture delivering high degrees of confidentiality, resiliency, flexibility and scalability.
-
-* [IBM Cloud Container Service](https://console.bluemix.net/containers-kubernetes/catalog/cluster): IBM Container Service enables the orchestration of intelligent scheduling, self-healing, and horizontal scaling.
 
 ## Featured technologies
 
