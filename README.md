@@ -6,9 +6,9 @@ You need to have the [data marketplace chaincode](https://github.com/lgsvl/data-
 # Deploy the Blockchain network using Kubernetes APIs
 
 Blockchain is a shared, immutable ledger for recording the history of transactions. For developing any blockchain use-case, the very first thing is to have a development environment for Hyperledger Fabric to create and deploy the application. Hyperledger Fabric network can be setup in multiple ways. In this repository we suppose that you have a running kubernetes cluster and a well configured Kubectl.
-This code pattern demonstrates the steps involved in setting up a data marketplace chaincode on Hyperledger on **Hyperledger Fabric using Kubernetes APIs**. 
+This code pattern demonstrates the steps involved in setting up a data marketplace chaincode on **Hyperledger Fabric using Kubernetes APIs**. 
 
-In our case, we used EKS as a Kubernetes instance with EFS for the persistent volumes.
+In our case, we used [EKS](https://aws.amazon.com/eks/) as a Kubernetes instance with [EFS](https://aws.amazon.com/efs/) for the persistent volumes.
 
 
 ## Featured technologies
@@ -61,26 +61,16 @@ If there is any change in network topology, need to modify the configuration fil
 Once you have completed the changes (if any) in configuration files, you are ready to deploy your network. Execute the scripts to deploy your hyperledger fabric network.
 You migh need to add execution permissions to the scripts.
 
-  ```
+Note: Before running the script, please check your environment. You should able to run `kubectl commands` properly with your cluster. 
+
+ ```
   $ ./create_dev_Volumes.sh # This will create 1 shared volume to host the configuration and artifacts and two volumes for couchDB for each organization 
   $ ./setup_dev_blockchainNetwork.sh # This will create the network and start the organization peers
   $ ./setup_dev_channel.sh # This will create the channel and make the peers join it
   $ ./setup_dev_chaincode.sh # This will deploy the chaincode to of the data markeplace to the fabric network
   ```
 
-Note: Before running the script, please check your environment. You should able to run `kubectl commands` properly with your cluster. 
-
-#### Delete the network
-
-If required, you can bring your hyperledger fabric network down using the different delete scripts ( e.g., `delete_dev_blockchainNetwork.sh`. These scripts will delete all your pods, jobs, deployments etc. from your Kubernetes cluster.
-
-  ```
-  $ ./delete_dev_channel.sh # This will delete the channel
-  $ ./delete_dev_blockchainNetwork.sh # This will delete the network
-  $ ./delete_dev_Volumes.sh # This will delete the volumes
-  ```
-
-### 5. Test the deployed network
+### Test the deployed network
 
 After successful execution of the script `setup_blockchainNetwork.sh`, check the status of pods.
 
@@ -93,7 +83,7 @@ After successful execution of the script `setup_blockchainNetwork.sh`, check the
   blockchain-org2peer1-7794d9b8c5-sn2qf   1/1       Running   0          4m
   ```
 
-As mentioned above, the script joins all peers on one channel `dmp`, install chaincode on all peers and instantiate chaincode on the channel. It means we can execute an invoke/query command on any peer and the response should be same on all peers. Please note that in this pattern tls certs are disabled to avoid complexity. In this pattern, the CLI commands are used to test the network. For running a query against any peer, need to get into a bash shell of a peer, run the query and exit from the peer container. You can also use the [data marketplace REST API] 
+As mentioned above, the script joins all peers on one channel `dmp`, install chaincode on all peers and instantiate chaincode on the channel. It means we can execute an invoke/query command on any peer and the response should be same on all peers. Please note that in this pattern tls certs are disabled to avoid complexity. In this pattern, the CLI commands are used to test the network. For running a query against any peer, you need to get into a bash shell of a peer, run the query and exit from the peer container. You can also use the [data marketplace REST API].
 
 Use the following command to get into a bash shell of a peer:
 
@@ -108,6 +98,15 @@ And the command to be used to exit from the peer container is:
   # exit
   ```
 
+#### Delete the network
+
+If required, you can bring your hyperledger fabric network down using the different delete scripts ( e.g., `delete_dev_blockchainNetwork.sh`. These scripts will delete all your pods, jobs, deployments etc. from your Kubernetes cluster.
+
+  ```
+  $ ./delete_dev_channel.sh # This will delete the channel
+  $ ./delete_dev_blockchainNetwork.sh # This will delete the network
+  $ ./delete_dev_Volumes.sh # This will delete the volumes
+  ```
 
 ## Reference Links
 
