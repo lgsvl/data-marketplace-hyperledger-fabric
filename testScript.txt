@@ -1,0 +1,101 @@
+- Setup, 2 create accounts with no balance:
+account1: 
+com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd
+account2: 
+com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w
+
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["balanceOf","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd"]}'
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["deleteDoc","3d342990-59fe-4f22-a182-41eaa216a5ca"]}'
+
+type Account struct {
+	DocType         string             `json:"docType"`
+	ID              string             `json:"id"`
+	Owner           string             `json:"owner"`
+	Balance         float64            `json:"balance"`
+	TotalAllowances float64            `json:"totalAllowances"`
+	Allowances      map[string]float64 `json:"allowances"`
+}
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["createAccount", "{\"docType\": \"com.lge.svl.datamarketplace.contract.Account\",\"id\": \"com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_LPZGyTzAB\",  \"owner\": \"https://cognito-idp.us-west-2.amazonaws.com/us-west-2_LPZGyTzAB\"      }"]}'
+
+1- Check Account balance:
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["balanceOf","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd"]}'
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["balanceOf","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w"]}'
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["balanceOf","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_LPZGyTzAB"]}'
+
+2- Check Allowance:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["allowances","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w"]}'
+
+3- Try to approve:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["approve","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w","10"]}'
+
+4- Check Available Supply:
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["availableSupply","dmpoken"]}'
+
+5- Set Account1 Balance to 1000:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["setAccountBalance","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","1000"]}'
+
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["setAccountBalance","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_LPZGyTzAB","1000"]}'
+
+
+5-A- Check account Balance:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["balanceOf","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd"]}'
+
+6- Approve:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["approve","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w","10"]}'
+
+7- Check Allowance:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["allowances","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w"]}'
+
+8- Try to transfer more than allowed:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["transferFrom","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w","10000"]}'
+
+9- Transfer
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["transferFrom","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w","4"]}'
+
+10- Check Allowance:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["allowances","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w"]}'
+
+11- Transfer
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["transferFrom","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w","6"]}'
+
+
+11- Try to Transfer more
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["transferFrom","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w","6"]}'
+
+
+12- Try to Create data contract from  Advanced Rest Client
+
+13- Set Account2 Balance to 500:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["setAccountBalance","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w","500"]}'
+
+
+14- Create data contract from Advanced Rest Client
+
+15- Check Allowance:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["allowances","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd"]}'
+
+
+16- Set Data Set Uploaded from Advanced REST Client
+
+17- Check Balances:
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["balanceOf","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_jqjDQJJLd"]}'
+
+peer chaincode invoke -o blockchain-orderer:31010 -C dmp -n dmp -c '{"Args":["balanceOf","dmpoken","com.lge.svl.datamarketplace.contract.Account-https://cognito-idp.us-west-2.amazonaws.com/us-west-2_suGJycZ5w"]}'
